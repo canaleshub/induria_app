@@ -1,0 +1,41 @@
+{% extends 'patients/index.html' %}
+
+
+{% block content %}
+    <script type="text/javascript">
+        $("#btnPrint").live("click", function () {
+            var divContents = $("#dvContainer").html();
+            var printWindow = window.open('', '', 'height=400,width=800');
+            printWindow.document.write('<html><head><title>Reports</title>');
+            printWindow.document.write('</head><body >');
+            printWindow.document.write(divContents);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        });
+    </script>
+    {% if context %}
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="form col-md-6 col-sm-12" id="dvContainer">
+                    <div class="card mt-5">
+                        <img src="{{ context.image }}" class="img p-3 img-fluid img-thumbnail">
+                        <div class="card-body">
+                            <h5 class="card-title">Results</h5>
+                            <p class="card-text">Name: {{ context.name }}</p>
+                            <p class="card-text">Age: {{ context.age }}</p>
+                            <p class="card-text">Gender: {{ context.gender }}</p>
+                            <p class="card-text">Patient Code: {{ context.code }}</p>
+                            <div class="alert alert-success" role="alert">
+                                Prediction: <strong>{{ context.predicted_class }}</strong>
+                            </div>
+                            <a href="#" class="btn btn-primary" id="btnPrint">Export</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    {% endif %}
+{% endblock %}
